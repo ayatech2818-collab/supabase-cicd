@@ -19,7 +19,7 @@ export default async function Page() {
     return (
       <main style={card}>
         <h1 style={{ marginTop: 0, fontSize: '1.25rem' }}>No Supabase credentials</h1>
-        <p style={{ color: '#9aa4b2' }}>
+        <p style={{ color: '#9aa4b2' }}>halooooo
           Looked for NEXT_PUBLIC_SUPABASE_URL plus one of
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY.
           On Vercel these are injected by the Supabase integration.
