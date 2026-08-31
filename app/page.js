@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
 import { addRow } from './actions'
+import { getCredentials, getClient } from './supabase'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,15 +13,15 @@ const card = {
 }
 
 export default async function Page() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const { url, key, keyName } = getCredentials()
 
   if (!url || !key) {
     return (
       <main style={card}>
         <h1 style={{ marginTop: 0, fontSize: '1.25rem' }}>No Supabase credentials</h1>
         <p style={{ color: '#9aa4b2' }}>
-          NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are not set.
+          Looked for NEXT_PUBLIC_SUPABASE_URL plus one of
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY.
           On Vercel these are injected by the Supabase integration.
         </p>
       </main>
@@ -32,7 +32,7 @@ export default async function Page() {
   // this deployment is actually talking to.
   const projectRef = new URL(url).hostname.split('.')[0]
 
-  const supabase = createClient(url, key)
+  const supabase = getClient()
   const { data, error } = await supabase
     .from('test_table')
     .select('id, name, created_at')
@@ -42,7 +42,9 @@ export default async function Page() {
     <main style={card}>
       <h1 style={{ marginTop: 0, fontSize: '1.25rem' }}>Supabase branch test</h1>
 
-      <p style={{ color: '#9aa4b2', fontSize: '0.9rem' }}>Connected to project</p>
+      <p style={{ color: '#9aa4b2', fontSize: '0.9rem' }}>
+        Connected to project <span style={{ opacity: 0.7 }}>(via {keyName})</span>
+      </p>
       <code
         style={{
           display: 'block',
