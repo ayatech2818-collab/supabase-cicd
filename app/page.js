@@ -59,34 +59,49 @@ export default async function Page() {
         {projectRef}
       </code>
 
-      <form action={addRow} style={{ display: 'flex', gap: '0.5rem', margin: '1.5rem 0' }}>
-        <input
-          name="name"
-          placeholder="Add a name"
-          required
+      <form action={addRow} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', margin: '1.5rem 0' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <input
+            name="name"
+            placeholder="Add a name"
+            required
+            style={{
+              flex: 1,
+              padding: '0.55rem 0.7rem',
+              background: '#0f1115',
+              border: '1px solid #262b36',
+              borderRadius: 8,
+              color: '#e6e8eb',
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              padding: '0.55rem 1rem',
+              background: '#3ecf8e',
+              border: 0,
+              borderRadius: 8,
+              color: '#0f1115',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            Insert
+          </button>
+        </div>
+        <textarea
+          name="note"
+          placeholder="Add a note (optional)"
+          rows={2}
           style={{
-            flex: 1,
             padding: '0.55rem 0.7rem',
             background: '#0f1115',
             border: '1px solid #262b36',
             borderRadius: 8,
             color: '#e6e8eb',
+            resize: 'vertical',
           }}
         />
-        <button
-          type="submit"
-          style={{
-            padding: '0.55rem 1rem',
-            background: '#3ecf8e',
-            border: 0,
-            borderRadius: 8,
-            color: '#0f1115',
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}
-        >
-          Insert
-        </button>
       </form>
 
       {error ? (
