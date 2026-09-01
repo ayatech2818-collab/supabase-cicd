@@ -19,7 +19,7 @@ export default async function Page() {
     return (
       <main style={card}>
         <h1 style={{ marginTop: 0, fontSize: '1.25rem' }}>No Supabase credentials</h1>
-        <p style={{ color: '#9aa4b2' }}>halooooo
+        <p style={{ color: '#9aa4b2' }}>
           Looked for NEXT_PUBLIC_SUPABASE_URL plus one of
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY or NEXT_PUBLIC_SUPABASE_ANON_KEY.
           On Vercel these are injected by the Supabase integration.
@@ -35,7 +35,7 @@ export default async function Page() {
   const supabase = getClient()
   const { data, error } = await supabase
     .from('test_table')
-    .select('id, name, created_at')
+    .select('id, name, created_at, notes(id, body, created_at)')
     .order('created_at', { ascending: true })
 
   return (
@@ -95,11 +95,20 @@ export default async function Page() {
         <ul style={{ margin: 0, paddingLeft: '1.1rem' }}>
           {data.length === 0 && <li style={{ color: '#9aa4b2' }}>No rows yet.</li>}
           {data.map((row) => (
-            <li key={row.id}>
+            <li key={row.id} style={{ marginBottom: '0.5rem' }}>
               {row.name}{' '}
               <span style={{ color: '#9aa4b2', fontSize: '0.85rem' }}>
                 {new Date(row.created_at).toISOString().slice(0, 19).replace('T', ' ')}
               </span>
+              {row.notes.length > 0 && (
+                <ul style={{ margin: '0.25rem 0 0', paddingLeft: '1.1rem' }}>
+                  {row.notes.map((note) => (
+                    <li key={note.id} style={{ color: '#9aa4b2', fontSize: '0.85rem' }}>
+                      {note.body}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
